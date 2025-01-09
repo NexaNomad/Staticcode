@@ -23,12 +23,6 @@ jobs:
         run: java -jar checkstyle.jar -c google_checks.xml sample.java
         continue-on-error: true
 
-      - name: Annotate Pull Request
-        if: failure()
-        uses: docker://ghcr.io/staabm/annotate-pull-request-from-checkstyle
-        with:
-          report_files: checkstyle-result.xml
-
   pylint:
     runs-on: ubuntu-latest
 
