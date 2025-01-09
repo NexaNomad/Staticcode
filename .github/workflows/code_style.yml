@@ -1,4 +1,4 @@
-name: Code Quality Checks
+name: Checkstyle
 
 on: [push, pull_request]
 
@@ -20,10 +20,12 @@ jobs:
         run: wget -q -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.1/checkstyle-10.21.1-all.jar
 
       - name: Download Google Checkstyle Config
-        run: wget -q -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+        run: |
+          wget -q -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+          ls -l google_checks.xml  # Verify the file is downloaded
 
       - name: Run Checkstyle
-        run: java -jar checkstyle.jar -c ./google_checks.xml -f xml **/*.java > checkstyle-result.xml
+        run: java -jar checkstyle.jar -c google_checks.xml **/*.java
         continue-on-error: true
 
       - name: Annotate Pull Request
