@@ -11,7 +11,7 @@ RUN pip install --upgrade pip && \
     pip install pylint
 
 # Download Checkstyle
-RUN wget -O /usr/local/bin/checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
+RUN  run: wget -q -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.1/checkstyle-10.21.1-all.jar
 
 # Set the working directory
 WORKDIR /app
@@ -24,4 +24,4 @@ ENV CHECKSTYLE_CONFIG=/google_checks.xml
 
 # Run code style checks
 CMD pylint sample.py && \
-    java -jar /usr/local/bin/checkstyle.jar -c $CHECKSTYLE_CONFIG Sample.java
+    java -jar checkstyle.jar -c $CHECKSTYLE_CONFIG Sample.java
