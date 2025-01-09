@@ -23,7 +23,7 @@ jobs:
         run: wget -q -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
 
       - name: Run Checkstyle
-        run: java -jar checkstyle.jar -c ./google_checks.xml -f xml src/**/*.java > checkstyle-result.xml
+        run: java -jar checkstyle.jar -c ./google_checks.xml -f xml **/*.java > checkstyle-result.xml
         continue-on-error: true
 
       - name: Annotate Pull Request
