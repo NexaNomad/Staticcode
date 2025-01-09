@@ -20,7 +20,7 @@ jobs:
         run: wget -q -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.1/checkstyle-10.21.1-all.jar
 
       - name: Run Checkstyle
-        run: java -jar checkstyle.jar -c /google_checks.xml sample.java
+        run: java -jar checkstyle.jar -c google_checks.xml sample.java
         continue-on-error: true
 
       - name: Annotate Pull Request
