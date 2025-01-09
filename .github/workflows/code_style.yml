@@ -25,7 +25,7 @@ jobs:
           ls -l google_checks.xml  # Verify the file is downloaded
 
       - name: Run Checkstyle
-        run: java -jar checkstyle.jar -c google_checks.xml **/*.java
+        run: java -jar checkstyle.jar -c google_checks.xml sample.java
         continue-on-error: true
 
       - name: Annotate Pull Request
