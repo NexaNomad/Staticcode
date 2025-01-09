@@ -1,16 +1,14 @@
-name: Code Style Validation
+name: Checkstyle
 
-on:
-  push:
-  pull_request:
+on: [push, pull_request]
 
 jobs:
   checkstyle:
-    name: Checkstyle
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Java
         uses: actions/setup-java@v3
@@ -19,19 +17,24 @@ jobs:
           java-version: '11'
 
       - name: Download Checkstyle
-        run: |
-          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
+        run: wget -q -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.1/checkstyle-10.21.1-all.jar
 
       - name: Run Checkstyle
-        run: |
-          java -jar checkstyle.jar -c /google_checks.xml Sample.java
+        run: java -jar checkstyle.jar -c google_checks.xml sample.java
+        continue-on-error: true
+
+      - name: Annotate Pull Request
+        if: failure()
+        uses: docker://ghcr.io/staabm/annotate-pull-request-from-checkstyle
+        with:
+          report_files: checkstyle-result.xml
 
   pylint:
-    name: Pylint
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v3
@@ -44,5 +47,4 @@ jobs:
           pip install pylint
 
       - name: Run Pylint
-        run: |
-          pylint sample.py
+        run: pylint **/*.py
